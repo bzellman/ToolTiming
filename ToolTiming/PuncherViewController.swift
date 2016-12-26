@@ -10,21 +10,19 @@ import Cocoa
 
 
 class PuncherViewController: NSViewController {
-    
-    
 
    
     
     @IBOutlet weak var projectPopUpButton: NSPopUpButton!
     @IBOutlet weak var taskPopUpButton: NSPopUpButton!
-    @IBOutlet weak var timePopUpButton: NSPopUpButton!
+    @IBOutlet weak var timeComboBox: NSComboBox!
+    
     @IBOutlet weak var descriptionTextField: NSTextField!
     @IBOutlet weak var newProjectButton: NSButton!
     
     let projectPopover = NSPopover()
     let toggleNotificationKey = "toggleNotificationKey"
     let appDelegate = NSApplication.shared().delegate as! AppDelegate
-    
     
     
     let standardTimeArray = ["0.25", "0.50", "0.75", "1.00", "1.25", "1.50", "1.75", "2.00"]
@@ -48,34 +46,23 @@ class PuncherViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("View Loaded")
-        self.setPopUpButtons()
+        
+        timeComboBox.removeAllItems()
+        setProjectsButton()
+        setTaskPopUpButton()
+        setTimeComboButton()
+
         NotificationCenter.default.addObserver(self, selector: #selector(PuncherViewController.toggleAddProject), name: NSNotification.Name(rawValue: toggleNotificationKey), object: nil)
-        
         projectPopover.contentViewController = AddProjectViewController(nibName: "AddProjectViewController", bundle: nil)
-        
     }
     
     
     override func viewWillAppear() {
-        self.fetchItems()
-        setProjectsButton()
-    }
-    
-    func setPopUpButtons() {
-        // lists all available tasks
-       let  taskNameArray = projectDetailsDictionary.allKeys
-        for name in taskNameArray{
-            taskPopUpButton.addItem(withTitle: name as! String)
-        }
-        
-        for time in standardTimeArray{
-            timePopUpButton.addItem(withTitle: time)
-        }
-        
+
         
     }
     
-    
+
     
     func fetchItems(){
         let managedContex = appDelegate.managedObjectContext
@@ -95,8 +82,9 @@ class PuncherViewController: NSViewController {
         } catch {
             fatalError("Failure to fetch Context: \(error)")
         }
-        
     }
+    
+    
     
     func setProjectsButton(){
         let managedContex = appDelegate.managedObjectContext
@@ -111,20 +99,30 @@ class PuncherViewController: NSViewController {
                 projectPopUpButton.addItem(withTitle: (project as! Project).name!)
             }
             
-            
         } catch {
             fatalError("Failure to fetch Context: \(error)")
         }
-        
     }
-
     
-
+    func setTaskPopUpButton() {
+        let  taskNameArray = projectDetailsDictionary.allKeys
+        for name in taskNameArray{
+            taskPopUpButton.addItem(withTitle: name as! String)
+        }
+    }
+    
+    func setTimeComboButton(){
+        for time in standardTimeArray{
+            timeComboBox.addItem(withObjectValue: time)
+        }
+    }
+    
     
     func toggleAddProject() {
         print("Toggeld")
         if projectPopover.isShown {
             projectPopover.performClose(Any?.self)
+            setProjectsButton()
         }
     }
     
@@ -134,7 +132,6 @@ class PuncherViewController: NSViewController {
         let managedContex = appDelegate.managedObjectContext
         
         //Get Current Project
-        
         let projectsFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "Project")
         projectsFetch.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
         print(projectPopUpButton.title)
@@ -146,9 +143,7 @@ class PuncherViewController: NSViewController {
                 print("fetching project Name")
                 print(project.name!)
                 
-                
                 ///
-                
                 let project_details = NSEntityDescription.insertNewObject(forEntityName: "ProjectDetails", into: managedContex) as! ProjectDetails
                 
                 // Set Timestamp
@@ -163,28 +158,29 @@ class PuncherViewController: NSViewController {
                 let item = taskPopUpButton.selectedItem?.title
                 let keyForEntity = projectDetailsDictionary[item!]
                 print(keyForEntity!)
-                let timeFloat = Float((timePopUpButton.selectedItem?.title)!)
+                
+                let timeFloat = Float((timeComboBox.stringValue))
                 let myNumber = NSNumber(value: timeFloat!)
                 project_details.setValue(myNumber, forKey:keyForEntity as! String)
                 
                 do {
                     try managedContex.save()
+                    
+                    projectPopUpButton.selectItem(at: 0)
+                    taskPopUpButton.selectItem(at: 0)
+                    timeComboBox.stringValue = ""
+                    descriptionTextField.stringValue = ""
+
+                    
                     print("saved")
                 } catch {
                     fatalError("Failure to save context: \(error)")
                 }
-                
-                
-                ///
-                
             }
         } catch {
             fatalError("Failure to fetch Context: \(error)")
         }
         
-        
-
-
         
     }
     

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		99311B0E1E117DE90062D07D /* BZProjectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99311B0D1E117DE90062D07D /* BZProjectView.swift */; };
 		99CD86B21E099BB3008DC259 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99CD86B11E099BB3008DC259 /* AppDelegate.swift */; };
 		99CD86B51E099BB3008DC259 /* ToolTiming.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 99CD86B31E099BB3008DC259 /* ToolTiming.xcdatamodeld */; };
 		99CD86B71E099BB3008DC259 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 99CD86B61E099BB3008DC259 /* Assets.xcassets */; };
@@ -37,6 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		99311B0D1E117DE90062D07D /* BZProjectView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BZProjectView.swift; sourceTree = "<group>"; };
 		99CD86AE1E099BB3008DC259 /* ToolTiming.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToolTiming.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		99CD86B11E099BB3008DC259 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		99CD86B41E099BB3008DC259 /* ToolTiming.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ToolTiming.xcdatamodel; sourceTree = "<group>"; };
@@ -113,6 +115,7 @@
 				99CD86DE1E099C84008DC259 /* PuncherViewController.xib */,
 				99CD86E81E0B09D5008DC259 /* AddProjectViewController.swift */,
 				99CD86E91E0B09D5008DC259 /* AddProjectViewController.xib */,
+				99311B0D1E117DE90062D07D /* BZProjectView.swift */,
 			);
 			path = ToolTiming;
 			sourceTree = "<group>";
@@ -273,6 +276,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				99311B0E1E117DE90062D07D /* BZProjectView.swift in Sources */,
 				99CD86EA1E0B09D5008DC259 /* AddProjectViewController.swift in Sources */,
 				99CD86DF1E099C84008DC259 /* PuncherViewController.swift in Sources */,
 				99CD86B21E099BB3008DC259 /* AppDelegate.swift in Sources */,
@@ -524,6 +528,7 @@
 				99CD86D61E099BB3008DC259 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		99CD86D71E099BB3008DC259 /* Build configuration list for PBXNativeTarget "ToolTimingTests" */ = {
 			isa = XCConfigurationList;
@@ -532,6 +537,7 @@
 				99CD86D91E099BB3008DC259 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		99CD86DA1E099BB3008DC259 /* Build configuration list for PBXNativeTarget "ToolTimingUITests" */ = {
 			isa = XCConfigurationList;
@@ -540,6 +546,7 @@
 				99CD86DC1E099BB3008DC259 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

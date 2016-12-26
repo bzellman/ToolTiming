@@ -12,7 +12,7 @@
                 <outlet property="newProjectButton" destination="9eb-Ru-4vI" id="Mak-ff-K40"/>
                 <outlet property="projectPopUpButton" destination="hMP-jh-pBp" id="Qvh-mo-juy"/>
                 <outlet property="taskPopUpButton" destination="bbG-Tz-Bn7" id="ToH-tn-mRt"/>
-                <outlet property="timePopUpButton" destination="20a-rY-rFU" id="PBd-Dr-C10"/>
+                <outlet property="timeComboBox" destination="ogv-wp-r8L" id="PNH-TN-4UF"/>
                 <outlet property="view" destination="4ro-RA-Y4a" id="ghh-UT-2It"/>
             </connections>
         </customObject>
@@ -76,15 +76,6 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
-                <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="20a-rY-rFU">
-                    <rect key="frame" x="30" y="70" width="216" height="26"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="AsJ-TO-f1k">
-                        <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="menu"/>
-                        <menu key="menu" id="NP4-MV-rZ3"/>
-                    </popUpButtonCell>
-                </popUpButton>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Yea-mf-D6s">
                     <rect key="frame" x="32" y="48" width="74" height="23"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -94,6 +85,20 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
+                <comboBox verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ogv-wp-r8L">
+                    <rect key="frame" x="32" y="69" width="214" height="26"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="V4o-Ln-dLy">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        <objectValues>
+                            <string>Item 1</string>
+                            <string>Item 2</string>
+                            <string>Item 3</string>
+                        </objectValues>
+                    </comboBoxCell>
+                </comboBox>
                 <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="T3x-DL-Sud">
                     <rect key="frame" x="34" y="18" width="426" height="22"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>

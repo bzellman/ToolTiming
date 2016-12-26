@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class AddProjectViewController: NSViewController {
+class AddProjectViewController: NSViewController, BZProjectViewDelegate {
     let appDelegate = NSApplication.shared().delegate as! AppDelegate
     let toggleNotificationKey = "toggleNotificationKey"
 
@@ -17,12 +17,14 @@ class AddProjectViewController: NSViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do view setup here.
+        
+        let view = self.view as! BZProjectView
+        view.delegate = self
+        self.nextResponder = view
     }
     
     func saveNewProject() {
         let managedContex = appDelegate.managedObjectContext
-        
         let newProjectName = NSEntityDescription.insertNewObject(forEntityName: "Project", into: managedContex) as! Project
         
         
@@ -39,16 +41,14 @@ class AddProjectViewController: NSViewController {
         }
     }
     
-    
     @IBAction func addButtonPressed(_ sender: Any) {
-        print("Pressed")
         saveNewProject()
         NotificationCenter.default.post(name: Notification.Name(rawValue: toggleNotificationKey), object: self)
-        
     }
     
     
-    
-    
+    func didPressEscape() {
+        NotificationCenter.default.post(name: Notification.Name(rawValue: toggleNotificationKey), object: self)
+    }
     
 }
