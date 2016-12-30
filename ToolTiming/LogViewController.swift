@@ -114,6 +114,10 @@ class LogViewController: NSViewController, NSTableViewDataSource, NSTableViewDel
     
     
     
+    @IBAction func exportButtonPressed(_ sender: Any) {
+        createExportString()
+    }
+    
     
     @IBAction func closedButtonPressed(_ sender: Any) {
         dismissViewController(self)
@@ -181,38 +185,93 @@ class LogViewController: NSViewController, NSTableViewDataSource, NSTableViewDel
     }
     
     func createExportString() -> String {
-//
-//        var projectName: String?
-//        var data_import: String?
-//        var design: String?
-//        var dev_tem_consult: String?
-//        var development: String?
-//        var general_comm: String?
-//        var graphics: String?
-//        var marketing: String?
-//        var other: String?
-//        var qa: String?
-//        var scheduled_meetings: String?
-//        var tech_support: String?
-//        var test_builds: String?
-//        var troubleshooting: String?
-//        var desc: String?
-//        var web_dev: String?
-//        var date_and_time: String?
-//        
-        var export: String! = NSLocalizedString("Project Name, Data Import, Design, Development Team Consult, Development, General Communication, Graphics, Marketing, Other, QA, Scheduled Meeting, Technical Support, Test Builds, Troubleshooting, Description, Web Development, Date And Time \n", comment: "")
+        var export: String! = "Project Name, Data Import, Design, Development Team Consult, Development, General Communication, Graphics, Marketing, Other, QA, Scheduled Meeting, Technical Support, Test Builds, Troubleshooting, Description, Web Development, Date And Time \n"
         
         
         
         for project in fetchedDetails {
             let projectObject = project as! ProjectDetails
+            
+            
+            var projectName = "N/A"
+            if projectObject.project?.name != nil {
+                projectName = (projectObject.project?.name)!
+            }
+            
+//            let projectName = projectObject.project?.name as String!
+            export.append(projectName)
+            export.append(",")
+            let data_import = projectObject.data_import.description
+            export.append(data_import)
+            let design = projectObject.design.description
+            export.append(design)
+            export.append(",")
+            let dev_tem_consult = projectObject.dev_tem_consult.description
+            export.append(dev_tem_consult)
+            export.append(",")
+            let development = projectObject.development.description
+            export.append(development)
+            export.append(",")
+            let general_comm = projectObject.general_comm.description
+            export.append(general_comm)
+            export.append(",")
+            
+            let graphics = projectObject.graphics.description
+            export.append(graphics)
+            export.append(",")
+            
+            let marketing = projectObject.marketing.description
+            export.append(marketing)
+            export.append(",")
+            
+            let other = projectObject.other.description
+            export.append(other)
+            export.append(",")
+            
+            let qa = projectObject.qa.description
+            export.append(qa)
+            export.append(",")
+            
+            let scheduled_meetings = projectObject.scheduled_meetings.description
+            export.append(scheduled_meetings)
+            export.append(",")
+            
+            let tech_support = projectObject.tech_support.description
+            export.append(tech_support)
+            export.append(",")
+            
+            let test_builds = projectObject.test_builds.description
+            export.append(test_builds)
+            export.append(",")
+            
+            let troubleshooting = projectObject.troubleshooting.description
+            export.append(troubleshooting)
+            export.append(",")
+            
+            let desc = projectObject.desc
+            export.append(desc!)
+            export.append(",")
+            
+            let web_dev = projectObject.web_dev.description
+            export.append(web_dev)
+            export.append(",")
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateStyle = DateFormatter.Style.short
+            let dateToConvert = projectObject.date_and_time as NSDate!
+            let projectDate = dateFormatter.string(from: dateToConvert as! Date)
+            
+            let date_and_time = projectDate
+            export.append(date_and_time)
+            export.append("\n")
+            
 
             
-            export += "\(projectObject.project?.name)" + "," + "\(projectObject.data_import)" + "," + "\(projectObject.design)" + "," + "\(projectObject.dev_tem_consult)" + "," + "\(projectObject.development)" + "," + "\(projectObject.general_comm)" + "," + "\(projectObject.graphics)" + "," + "\(projectObject.marketing)" + "," + "\(projectObject.other)" + "," + "\(projectObject.qa)" + "," + "\(projectObject.scheduled_meetings)" + "," + "\(projectObject.tech_support)" + "," + "\(projectObject.test_builds)" + "," + "\(projectObject.troubleshooting)" + "," + "\(projectObject.desc)" + "," + "\(projectObject.web_dev)" + "," + "\(projectObject.date_and_time)" + "\n"
+//            export += projectName + "," + data_import + "," + design + "," + dev_tem_consult + "," + development + "," + general_comm + "," + graphics + "," + marketing + "," + other + "," + qa + "," + scheduled_meetings + "," + tech_support + "," + test_builds + "," + troubleshooting + "," + desc + "," + web_dev + "," + date_and_time + "\n"
         }
         
-//        print("This is what the app will export: \(export)")
-        return "BOOP"
+        print("This is what the app will export: \(export)")
+        return export
     }
     
     
