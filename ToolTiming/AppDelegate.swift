@@ -45,7 +45,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func closePopover(sender: AnyObject?) {
         print("Close")
+        
         popover.performClose(sender)
+        
     }
     
     

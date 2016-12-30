@@ -1,10 +1,8 @@
-//
 //  PuncherViewController.swift
 //  ToolTiming
 //
 //  Created by Bradley Zellman on 12/20/16.
 //  Copyright © 2016 Bradley Zellman. All rights reserved.
-//
 
 import Cocoa
 
@@ -21,13 +19,15 @@ class PuncherViewController: NSViewController {
     @IBOutlet weak var newProjectButton: NSButton!
     
     let projectPopover = NSPopover()
+    let sheetView = LogViewController()
     let toggleNotificationKey = "toggleNotificationKey"
     let appDelegate = NSApplication.shared().delegate as! AppDelegate
+    var logShown = false
     
     
     let standardTimeArray = ["0.25", "0.50", "0.75", "1.00", "1.25", "1.50", "1.75", "2.00"]
+   
     let projectDetailsDictionary:NSDictionary = ["Data Import": "data_import",
-                                  "Description": "desc",
                                   "Design": "design",
                                   "Development Team Consultation": "dev_tem_consult",
                                   "Internal Development": "development",
@@ -41,6 +41,7 @@ class PuncherViewController: NSViewController {
                                   "Test Build Assembly": "test_builds",
                                   "Troubleshooting": "troubleshooting",
                                   "Web Sites": "web_dev"]
+    
 
     
     override func viewDidLoad() {
@@ -56,11 +57,17 @@ class PuncherViewController: NSViewController {
         projectPopover.contentViewController = AddProjectViewController(nibName: "AddProjectViewController", bundle: nil)
     }
     
-    
-    override func viewWillAppear() {
-
+    override func viewWillDisappear() {
+        if projectPopover.isShown {
+            projectPopover.performClose(Any?.self)
+            setProjectsButton()
+        }
         
+        if logShown == true {
+            toggleLog()
+        }
     }
+    
     
 
     
@@ -119,7 +126,6 @@ class PuncherViewController: NSViewController {
     
     
     func toggleAddProject() {
-        print("Toggeld")
         if projectPopover.isShown {
             projectPopover.performClose(Any?.self)
             setProjectsButton()
@@ -129,7 +135,7 @@ class PuncherViewController: NSViewController {
     @IBAction func saveButtonPressed(_ sender: Any) {
         print("Button Pressed")
         
-        let managedContex = appDelegate.managedObjectContext
+        let managedContext = appDelegate.managedObjectContext
         
         //Get Current Project
         let projectsFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "Project")
@@ -137,14 +143,14 @@ class PuncherViewController: NSViewController {
         print(projectPopUpButton.title)
         projectsFetch.predicate = NSPredicate(format: "name == %@", projectPopUpButton.title)
         do {
-            let fetchedProject = try managedContex.fetch(projectsFetch)
+            let fetchedProject = try managedContext.fetch(projectsFetch)
             for project in fetchedProject {
                 let project = project as! Project
                 print("fetching project Name")
                 print(project.name!)
                 
                 ///
-                let project_details = NSEntityDescription.insertNewObject(forEntityName: "ProjectDetails", into: managedContex) as! ProjectDetails
+                let project_details = NSEntityDescription.insertNewObject(forEntityName: "ProjectDetails", into: managedContext) as! ProjectDetails
                 
                 // Set Timestamp
                 project_details.date_and_time = NSDate()
@@ -164,7 +170,7 @@ class PuncherViewController: NSViewController {
                 project_details.setValue(myNumber, forKey:keyForEntity as! String)
                 
                 do {
-                    try managedContex.save()
+                    try managedContext.save()
                     
                     projectPopUpButton.selectItem(at: 0)
                     taskPopUpButton.selectItem(at: 0)
@@ -184,8 +190,26 @@ class PuncherViewController: NSViewController {
         
     }
     
+    func toggleLog() {
+        if logShown == false {
+            presentViewControllerAsSheet(sheetView)
+            logShown = true
+            
+        } else {
+            dismissViewController(sheetView)
+            logShown = false
+        }
+    }
+    
     @IBAction func addProjectButtonPressed(_ sender: Any) {
         projectPopover.show(relativeTo: newProjectButton.bounds, of: newProjectButton, preferredEdge: NSRectEdge.minY)
     }
+    
+    
+    @IBAction func showLogButtonPressed(_ sender: Any) {
+        toggleLog()
+    }
+    
+    
     
 }

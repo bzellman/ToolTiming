@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		99311B0E1E117DE90062D07D /* BZProjectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99311B0D1E117DE90062D07D /* BZProjectView.swift */; };
+		99311B111E11B1F00062D07D /* LogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99311B0F1E11B1F00062D07D /* LogViewController.swift */; };
+		99311B121E11B1F00062D07D /* LogViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 99311B101E11B1F00062D07D /* LogViewController.xib */; };
 		99CD86B21E099BB3008DC259 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99CD86B11E099BB3008DC259 /* AppDelegate.swift */; };
 		99CD86B51E099BB3008DC259 /* ToolTiming.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 99CD86B31E099BB3008DC259 /* ToolTiming.xcdatamodeld */; };
 		99CD86B71E099BB3008DC259 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 99CD86B61E099BB3008DC259 /* Assets.xcassets */; };
@@ -39,6 +41,8 @@
 
 /* Begin PBXFileReference section */
 		99311B0D1E117DE90062D07D /* BZProjectView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BZProjectView.swift; sourceTree = "<group>"; };
+		99311B0F1E11B1F00062D07D /* LogViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogViewController.swift; sourceTree = "<group>"; };
+		99311B101E11B1F00062D07D /* LogViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LogViewController.xib; sourceTree = "<group>"; };
 		99CD86AE1E099BB3008DC259 /* ToolTiming.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToolTiming.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		99CD86B11E099BB3008DC259 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		99CD86B41E099BB3008DC259 /* ToolTiming.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ToolTiming.xcdatamodel; sourceTree = "<group>"; };
@@ -113,6 +117,8 @@
 				99CD86B31E099BB3008DC259 /* ToolTiming.xcdatamodeld */,
 				99CD86DD1E099C84008DC259 /* PuncherViewController.swift */,
 				99CD86DE1E099C84008DC259 /* PuncherViewController.xib */,
+				99311B0F1E11B1F00062D07D /* LogViewController.swift */,
+				99311B101E11B1F00062D07D /* LogViewController.xib */,
 				99CD86E81E0B09D5008DC259 /* AddProjectViewController.swift */,
 				99CD86E91E0B09D5008DC259 /* AddProjectViewController.xib */,
 				99311B0D1E117DE90062D07D /* BZProjectView.swift */,
@@ -250,6 +256,7 @@
 			files = (
 				99CD86EB1E0B09D5008DC259 /* AddProjectViewController.xib in Resources */,
 				99CD86B71E099BB3008DC259 /* Assets.xcassets in Resources */,
+				99311B121E11B1F00062D07D /* LogViewController.xib in Resources */,
 				99CD86BA1E099BB3008DC259 /* MainMenu.xib in Resources */,
 				99CD86E01E099C84008DC259 /* PuncherViewController.xib in Resources */,
 			);
@@ -279,6 +286,7 @@
 				99311B0E1E117DE90062D07D /* BZProjectView.swift in Sources */,
 				99CD86EA1E0B09D5008DC259 /* AddProjectViewController.swift in Sources */,
 				99CD86DF1E099C84008DC259 /* PuncherViewController.swift in Sources */,
+				99311B111E11B1F00062D07D /* LogViewController.swift in Sources */,
 				99CD86B21E099BB3008DC259 /* AppDelegate.swift in Sources */,
 				99CD86B51E099BB3008DC259 /* ToolTiming.xcdatamodeld in Sources */,
 			);

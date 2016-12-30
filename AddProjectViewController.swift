@@ -46,7 +46,6 @@ class AddProjectViewController: NSViewController, BZProjectViewDelegate {
         NotificationCenter.default.post(name: Notification.Name(rawValue: toggleNotificationKey), object: self)
     }
     
-    
     func didPressEscape() {
         NotificationCenter.default.post(name: Notification.Name(rawValue: toggleNotificationKey), object: self)
     }
