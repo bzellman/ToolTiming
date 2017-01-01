@@ -60,7 +60,7 @@ class PuncherViewController: NSViewController {
     override func viewWillDisappear() {
         if projectPopover.isShown {
             projectPopover.performClose(Any?.self)
-            setProjectsButton()
+//            setProjectsButton()
         }
         
         if logShown == true {
@@ -194,7 +194,6 @@ class PuncherViewController: NSViewController {
         if logShown == false {
             presentViewControllerAsSheet(sheetView)
             logShown = true
-            
         } else {
             dismissViewController(sheetView)
             logShown = false

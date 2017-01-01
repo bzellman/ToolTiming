@@ -115,7 +115,12 @@ class LogViewController: NSViewController, NSTableViewDataSource, NSTableViewDel
     
     
     @IBAction func exportButtonPressed(_ sender: Any) {
-        createExportString()
+        
+        let directoryToSave = chooseSaveDirectory()
+        let exportString = createExportString()
+        
+        writeDataStringToFile(dataString: exportString, urlPath: directoryToSave)
+        
     }
     
     
@@ -198,20 +203,25 @@ class LogViewController: NSViewController, NSTableViewDataSource, NSTableViewDel
                 projectName = (projectObject.project?.name)!
             }
             
-//            let projectName = projectObject.project?.name as String!
             export.append(projectName)
             export.append(",")
+            
             let data_import = projectObject.data_import.description
             export.append(data_import)
+            export.append(",")
+            
             let design = projectObject.design.description
             export.append(design)
             export.append(",")
+            
             let dev_tem_consult = projectObject.dev_tem_consult.description
             export.append(dev_tem_consult)
             export.append(",")
+            
             let development = projectObject.development.description
             export.append(development)
             export.append(",")
+            
             let general_comm = projectObject.general_comm.description
             export.append(general_comm)
             export.append(",")
@@ -272,6 +282,71 @@ class LogViewController: NSViewController, NSTableViewDataSource, NSTableViewDel
         
         print("This is what the app will export: \(export)")
         return export
+    }
+    
+//    func saveAndExport(exportString: String) {
+//        let exportFilePath = NSTemporaryDirectory() + "export.csv"
+//        let exportFileURL = NSURL(fileURLWithPath: exportFilePath)
+//        FileManager.default.createFile(atPath: exportFilePath, contents: NSData() as Data, attributes: nil)
+////        var fileHandleError: NSError? = nil
+//        var fileHandle: FileHandle? = nil
+//        
+//        do {
+//            fileHandle = try FileHandle(forWritingTo: exportFileURL as URL)
+//        } catch {
+//            print("Error with fileHandle")
+//        }
+//        
+//        if fileHandle != nil {
+//            fileHandle!.seekToEndOfFile()
+//            let csvData = exportString.data(using: String.Encoding.utf8, allowLossyConversion: false)
+//            fileHandle!.write(csvData!)
+//            
+//            fileHandle!.closeFile()
+//            
+////            let firstActivityItem = NSURL(fileURLWithPath: exportFilePath)
+//
+//        }
+//    }
+    
+    func chooseSaveDirectory() -> URL {
+        let fileDialog: NSOpenPanel = NSOpenPanel()
+        fileDialog.title = "Choose an output directory"
+        fileDialog.canChooseDirectories = true
+        fileDialog.canChooseFiles = false
+        fileDialog.canCreateDirectories = true
+        fileDialog.allowsMultipleSelection = false
+        
+        fileDialog.runModal()
+        
+        let urlToReturn = fileDialog.urls.first
+        return urlToReturn!
+        
+    }
+    
+    
+    func writeDataStringToFile(dataString: String, urlPath: URL){
+        let fileName = "Timesheet Export.csv"
+        let dataString = dataString
+        
+//        if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+        
+            let path = urlPath.appendingPathComponent(fileName)
+            
+            //writing
+            do {
+                try dataString.write(to: path, atomically: false, encoding: String.Encoding.utf8)
+            }
+            catch {/* error handling here */}
+            
+            //reading
+//            do {
+//                let text2 = try String(contentsOf: path, encoding: String.Encoding.utf8)
+//            }
+//            catch {/* error handling here */}
+//        }
+
+        
     }
     
     
