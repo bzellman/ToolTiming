@@ -21,6 +21,7 @@ class PuncherViewController: NSViewController {
     let projectPopover = NSPopover()
     let sheetView = LogViewController()
     let toggleNotificationKey = "toggleNotificationKey"
+    let toggleLogNotificationKey = "toggleLogNotificationKey"
     let appDelegate = NSApplication.shared().delegate as! AppDelegate
     var logShown = false
     
@@ -54,13 +55,15 @@ class PuncherViewController: NSViewController {
         setTimeComboButton()
 
         NotificationCenter.default.addObserver(self, selector: #selector(PuncherViewController.toggleAddProject), name: NSNotification.Name(rawValue: toggleNotificationKey), object: nil)
+        
+          NotificationCenter.default.addObserver(self, selector: #selector(PuncherViewController.toggleLog), name: NSNotification.Name(rawValue: toggleLogNotificationKey), object: nil)
+        
         projectPopover.contentViewController = AddProjectViewController(nibName: "AddProjectViewController", bundle: nil)
     }
     
     override func viewWillDisappear() {
         if projectPopover.isShown {
             projectPopover.performClose(Any?.self)
-//            setProjectsButton()
         }
         
         if logShown == true {

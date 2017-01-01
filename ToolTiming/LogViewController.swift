@@ -27,6 +27,8 @@ class LogViewController: NSViewController, NSTableViewDataSource, NSTableViewDel
     var managedContext = (NSApplication.shared().delegate as! AppDelegate).managedObjectContext
     var fetchedDetails = [NSManagedObject]()
     
+    let toggleLogNotificationKey = "toggleLogNotificationKey"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do view setup here.
@@ -125,7 +127,8 @@ class LogViewController: NSViewController, NSTableViewDataSource, NSTableViewDel
     
     
     @IBAction func closedButtonPressed(_ sender: Any) {
-        dismissViewController(self)
+//        dismissViewController(self)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: toggleLogNotificationKey), object: self)
     }
     
     
@@ -280,7 +283,7 @@ class LogViewController: NSViewController, NSTableViewDataSource, NSTableViewDel
 //            export += projectName + "," + data_import + "," + design + "," + dev_tem_consult + "," + development + "," + general_comm + "," + graphics + "," + marketing + "," + other + "," + qa + "," + scheduled_meetings + "," + tech_support + "," + test_builds + "," + troubleshooting + "," + desc + "," + web_dev + "," + date_and_time + "\n"
         }
         
-        print("This is what the app will export: \(export)")
+//        print("This is what the app will export: \(export)")
         return export
     }
     
