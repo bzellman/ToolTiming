@@ -130,7 +130,7 @@
                                             </tableCellView>
                                         </prototypeCellViews>
                                     </tableColumn>
-                                    <tableColumn identifier="" width="64" minWidth="10" maxWidth="3.4028234663852886e+38" id="szK-5j-O7M">
+                                    <tableColumn identifier="" width="64" minWidth="10" maxWidth="3.4028234663852886e+38" id="szK-5j-O7M" userLabel="Date">
                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Date ">
                                             <font key="font" metaFont="smallSystem"/>
                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -144,7 +144,7 @@
                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                         <prototypeCellViews>
                                             <tableCellView identifier="DateCellID" id="PzX-9Z-Vel">
-                                                <rect key="frame" x="366" y="1" width="64" height="17"/>
+                                                <rect key="frame" x="365.5" y="1" width="64" height="17"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LIE-i6-rGy">
@@ -177,11 +177,11 @@
                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                         <prototypeCellViews>
                                             <tableCellView identifier="DescCellID" id="VWB-mp-Rix">
-                                                <rect key="frame" x="433" y="1" width="311" height="17"/>
+                                                <rect key="frame" x="432.5" y="1" width="310" height="17"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="O7i-hZ-Uix">
-                                                        <rect key="frame" x="0.0" y="0.0" width="311" height="17"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="310" height="17"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="Lg4-OI-YO6">
                                                             <font key="font" metaFont="system"/>
@@ -242,8 +242,25 @@
                 <constraint firstAttribute="bottom" secondItem="SIH-gA-pFW" secondAttribute="bottom" constant="61" id="tJy-s2-ga2"/>
                 <constraint firstAttribute="trailing" secondItem="SIH-gA-pFW" secondAttribute="trailing" constant="20" id="xUa-Rd-58J"/>
             </constraints>
+            <connections>
+                <outlet property="menu" destination="82I-jz-62B" id="C9j-2V-4lQ"/>
+            </connections>
             <point key="canvasLocation" x="295" y="192.5"/>
         </customView>
         <userDefaultsController representsSharedInstance="YES" id="UED-7W-2te"/>
+        <menu id="82I-jz-62B">
+            <items>
+                <menuItem title="Delete Item " id="hTM-L7-jGd">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="deleteItemPressed:" target="-2" id="t7E-wZ-A5T"/>
+                    </connections>
+                </menuItem>
+            </items>
+            <connections>
+                <outlet property="delegate" destination="Hz6-mo-xeY" id="mQd-jt-cQn"/>
+            </connections>
+            <point key="canvasLocation" x="-8" y="418"/>
+        </menu>
     </objects>
 </document>

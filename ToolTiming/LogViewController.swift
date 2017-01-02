@@ -10,7 +10,7 @@ import Cocoa
 
 
 
-class LogViewController: NSViewController, NSTableViewDataSource, NSTableViewDelegate {
+class LogViewController: NSViewController, NSTableViewDataSource, NSTableViewDelegate, NSMenuDelegate {
     
     fileprivate enum CellIdentifiers {
         static let ProjectCell = "ProjectCellID"
@@ -23,11 +23,28 @@ class LogViewController: NSViewController, NSTableViewDataSource, NSTableViewDel
 
     @IBOutlet weak var tableView: NSTableView!
     
-    
     var managedContext = (NSApplication.shared().delegate as! AppDelegate).managedObjectContext
     var fetchedDetails = [NSManagedObject]()
-    
+    var tableRowAndProjectDictionary: [Int: ProjectDetails] = [:]
     let toggleLogNotificationKey = "toggleLogNotificationKey"
+    var selectedRow : Int = 0
+    
+    
+    @IBAction func deleteItemPressed(_ sender: Any) {
+        let projectToDelete = tableRowAndProjectDictionary[selectedRow]
+        managedContext.delete(projectToDelete!)
+        
+        do {
+            try managedContext.save()
+            
+            print("saved")
+        } catch {
+            fatalError("Failure to save context: \(error)")
+        }
+
+        fetchItems()
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,18 +57,36 @@ class LogViewController: NSViewController, NSTableViewDataSource, NSTableViewDel
     
     func fetchItems(){
         let projectsFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "ProjectDetails")
-        projectsFetch.sortDescriptors = [NSSortDescriptor(key: "date_and_time", ascending: true)]
+        projectsFetch.sortDescriptors = [NSSortDescriptor(key: "date_and_time", ascending: false)]
         
         do {
             let fetchedProjectDetails = try managedContext.fetch(projectsFetch)
             fetchedDetails = fetchedProjectDetails as! [NSManagedObject]
             print("fetched")
+            
+            addProjectToProjustRowDictionary()
             tableView.reloadData()
             print("reloaded")
         } catch {
             fatalError("Failure to fetch Context: \(error)")
         }
     }
+    
+    func addProjectToProjustRowDictionary() {
+        
+        var projectIntToAddToDictionary = 0
+        let projectCount = fetchedDetails.count - 1
+        
+        for projectIndex in 0...projectCount{
+            let project : ProjectDetails = fetchedDetails[projectIndex] as! ProjectDetails
+            tableRowAndProjectDictionary[projectIntToAddToDictionary] = project
+            projectIntToAddToDictionary += 1
+
+        }
+        
+        print(tableRowAndProjectDictionary)
+    }
+    
     
     // Find out what task was logged by searching for the attribut with a time value above 0 and return the attribute and float value Return Array [Task Name, Time for Task, Date and Time, Project Description]
     func findTaskFromProjectDetail(project: ProjectDetails) -> Array<String> {
@@ -86,9 +121,8 @@ class LogViewController: NSViewController, NSTableViewDataSource, NSTableViewDel
                 
                 //Set Project Time Value to String
                 let timeValuefloat = projectValue as! Float
-                print("The time value float is \(timeValuefloat)")
                 let timeValueString = timeValuefloat.description
-                print("The time value string is \(timeValueString)")
+//                print("The time value string is \(timeValueString)")
                 
                 
                 //Set Project Date
@@ -113,8 +147,10 @@ class LogViewController: NSViewController, NSTableViewDataSource, NSTableViewDel
         return []
     }
     
-    
-    
+    func tableViewSelectionDidChange(_ notification: Notification) {
+        print(tableView.selectedRow)
+        selectedRow = tableView.selectedRow
+    }
     
     @IBAction func exportButtonPressed(_ sender: Any) {
         
@@ -122,29 +158,23 @@ class LogViewController: NSViewController, NSTableViewDataSource, NSTableViewDel
         let exportString = createExportString()
         
         writeDataStringToFile(dataString: exportString, urlPath: directoryToSave)
-        
     }
     
     
     @IBAction func closedButtonPressed(_ sender: Any) {
-//        dismissViewController(self)
         NotificationCenter.default.post(name: Notification.Name(rawValue: toggleLogNotificationKey), object: self)
     }
     
     
     
     func numberOfRows(in tableView: NSTableView) -> Int {
-        print(fetchedDetails.count)
+//        print(fetchedDetails.count)
         return fetchedDetails.count
     }
     
     
-
     
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        // get an NSTableCellView with an identifier that is the same as the identifier for the column
-        // NOTE: you need to set the identifier of both the Column and the Table Cell View
-        // in this case the columns are "name" and "value"
         
         var text: String = ""
         var cellIdentifier: String = ""
@@ -154,7 +184,8 @@ class LogViewController: NSViewController, NSTableViewDataSource, NSTableViewDel
         // get the "Item" for the row
         let project = fetchedDetails[row] as! ProjectDetails
         
-        let task_description = findTaskFromProjectDetail(project: project)
+        let taskDescription = findTaskFromProjectDetail(project: project)
+        print(taskDescription.count)
         
         if tableColumn == tableView.tableColumns[0] {
             if project.project?.name != nil {
@@ -163,28 +194,49 @@ class LogViewController: NSViewController, NSTableViewDataSource, NSTableViewDel
             } else {
                 text = "N/A"
             }
+            
             cellIdentifier = CellIdentifiers.ProjectCell
         }
           else if tableColumn == tableView.tableColumns[1] {
-            text = task_description[0]
+            if taskDescription.count >= 1  {
+                text = taskDescription[0]
+            } else {
+                text = "N/A"
+            }
+            
             cellIdentifier = CellIdentifiers.TaskCell
         }
         else if tableColumn == tableView.tableColumns[2] {
-            text = task_description[1]
+            if taskDescription.count >= 2 {
+                text = taskDescription[1]
+            } else {
+                text = "N/A"
+            }
+            
+            
             cellIdentifier = CellIdentifiers.TimeCell
         }
         else if tableColumn == tableView.tableColumns[3] {
-            text = task_description[2]
+            if taskDescription.count >= 3  {
+                text = taskDescription[2]
+            } else {
+                text = "N/A"
+            }
+            
             cellIdentifier = CellIdentifiers.DateCell
         }
         else if tableColumn == tableView.tableColumns[4] {
-            text = task_description[3]
+            if taskDescription.count >= 4  {
+                text = taskDescription[3]
+            } else {
+                text = "N/A"
+            }
+            
             cellIdentifier = CellIdentifiers.DescCell
         }
 
         
         // Set the Cell
-            
         if let cell = tableView.make(withIdentifier: cellIdentifier, owner: nil) as? NSTableCellView {
             cell.textField?.stringValue = text
             return cell
@@ -192,9 +244,12 @@ class LogViewController: NSViewController, NSTableViewDataSource, NSTableViewDel
         return nil
     }
     
+    // MARK: Export Functions
+    
     func createExportString() -> String {
-        var export: String! = "Project Name, Data Import, Design, Development Team Consult, Development, General Communication, Graphics, Marketing, Other, QA, Scheduled Meeting, Technical Support, Test Builds, Troubleshooting, Description, Web Development, Date And Time \n"
         
+        print(tableRowAndProjectDictionary.keys)
+        var export: String! = "Project Name, Data Import, Design, Development Team Consult, Development, General Communication, Graphics, Marketing, Other, QA, Scheduled Meeting, Technical Support, Test Builds, Troubleshooting, Description, Web Development, Date And Time \n"
         
         
         for project in fetchedDetails {
@@ -283,34 +338,13 @@ class LogViewController: NSViewController, NSTableViewDataSource, NSTableViewDel
 //            export += projectName + "," + data_import + "," + design + "," + dev_tem_consult + "," + development + "," + general_comm + "," + graphics + "," + marketing + "," + other + "," + qa + "," + scheduled_meetings + "," + tech_support + "," + test_builds + "," + troubleshooting + "," + desc + "," + web_dev + "," + date_and_time + "\n"
         }
         
-//        print("This is what the app will export: \(export)")
+        
+        
         return export
+        
+        
     }
     
-//    func saveAndExport(exportString: String) {
-//        let exportFilePath = NSTemporaryDirectory() + "export.csv"
-//        let exportFileURL = NSURL(fileURLWithPath: exportFilePath)
-//        FileManager.default.createFile(atPath: exportFilePath, contents: NSData() as Data, attributes: nil)
-////        var fileHandleError: NSError? = nil
-//        var fileHandle: FileHandle? = nil
-//        
-//        do {
-//            fileHandle = try FileHandle(forWritingTo: exportFileURL as URL)
-//        } catch {
-//            print("Error with fileHandle")
-//        }
-//        
-//        if fileHandle != nil {
-//            fileHandle!.seekToEndOfFile()
-//            let csvData = exportString.data(using: String.Encoding.utf8, allowLossyConversion: false)
-//            fileHandle!.write(csvData!)
-//            
-//            fileHandle!.closeFile()
-//            
-////            let firstActivityItem = NSURL(fileURLWithPath: exportFilePath)
-//
-//        }
-//    }
     
     func chooseSaveDirectory() -> URL {
         let fileDialog: NSOpenPanel = NSOpenPanel()
@@ -319,6 +353,7 @@ class LogViewController: NSViewController, NSTableViewDataSource, NSTableViewDel
         fileDialog.canChooseFiles = false
         fileDialog.canCreateDirectories = true
         fileDialog.allowsMultipleSelection = false
+        fileDialog.level = 10
         
         fileDialog.runModal()
         
@@ -332,8 +367,6 @@ class LogViewController: NSViewController, NSTableViewDataSource, NSTableViewDel
         let fileName = "Timesheet Export.csv"
         let dataString = dataString
         
-//        if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
-        
             let path = urlPath.appendingPathComponent(fileName)
             
             //writing
@@ -341,13 +374,6 @@ class LogViewController: NSViewController, NSTableViewDataSource, NSTableViewDel
                 try dataString.write(to: path, atomically: false, encoding: String.Encoding.utf8)
             }
             catch {/* error handling here */}
-            
-            //reading
-//            do {
-//                let text2 = try String(contentsOf: path, encoding: String.Encoding.utf8)
-//            }
-//            catch {/* error handling here */}
-//        }
 
         
     }

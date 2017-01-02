@@ -47,6 +47,7 @@ class PuncherViewController: NSViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        projectPopover.contentViewController?.view.window?.level = 20
         print("View Loaded")
         
         timeComboBox.removeAllItems()
@@ -140,11 +141,13 @@ class PuncherViewController: NSViewController {
         
         let managedContext = appDelegate.managedObjectContext
         
-        //Get Current Project
+        //Get current project user is creating
         let projectsFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "Project")
         projectsFetch.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
         print(projectPopUpButton.title)
         projectsFetch.predicate = NSPredicate(format: "name == %@", projectPopUpButton.title)
+        
+        
         do {
             let fetchedProject = try managedContext.fetch(projectsFetch)
             for project in fetchedProject {
@@ -163,15 +166,25 @@ class PuncherViewController: NSViewController {
                 project_details.desc = descString
                 project_details.project = project
                 
-                // Set for time, entity and project detail
+                // Set for time entity and project detail
                 let item = taskPopUpButton.selectedItem?.title
                 let keyForEntity = projectDetailsDictionary[item!]
                 print(keyForEntity!)
                 
-                let timeFloat = Float((timeComboBox.stringValue))
-                let myNumber = NSNumber(value: timeFloat!)
-                project_details.setValue(myNumber, forKey:keyForEntity as! String)
                 
+                
+                if let timeFloat = Float((timeComboBox.stringValue)) {
+                    let myNumber = NSNumber(value: timeFloat)
+                    project_details.setValue(myNumber, forKey:keyForEntity as! String)
+                } else {
+                    let timeAlert = NSAlert()
+                    timeAlert.messageText = "There is no Time"
+                    timeAlert.informativeText = "Please enter how much time you spent on this task and try again"
+                    timeAlert.addButton(withTitle: "Got It")
+                    timeAlert.runModal()
+                    break
+                }
+
                 do {
                     try managedContext.save()
                     
