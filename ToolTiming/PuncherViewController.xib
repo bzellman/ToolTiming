@@ -141,6 +141,17 @@
                         <action selector="saveButtonPressed:" target="-2" id="67l-21-O89"/>
                     </connections>
                 </button>
+                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3qa-V1-Sxb">
+                    <rect key="frame" x="361" y="226" width="105" height="32"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="push" title="Quit App" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Gwh-lU-juy">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="quitButtonPressed:" target="-2" id="tQM-kD-P2w"/>
+                    </connections>
+                </button>
             </subviews>
             <point key="canvasLocation" x="-141" y="-34"/>
         </customView>
@@ -149,7 +160,7 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <clipView key="contentView" id="v5X-nd-2oU">
                 <rect key="frame" x="1" y="0.0" width="478" height="134"/>
-                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="Oce-M0-1H6" viewBased="YES" id="fjW-m2-v9i">
                         <rect key="frame" x="0.0" y="0.0" width="478" height="111"/>

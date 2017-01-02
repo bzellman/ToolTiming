@@ -168,7 +168,6 @@ class LogViewController: NSViewController, NSTableViewDataSource, NSTableViewDel
     
     
     func numberOfRows(in tableView: NSTableView) -> Int {
-//        print(fetchedDetails.count)
         return fetchedDetails.count
     }
     

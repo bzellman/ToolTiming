@@ -225,6 +225,9 @@ class PuncherViewController: NSViewController {
         toggleLog()
     }
     
+    @IBAction func quitButtonPressed(_ sender: Any) {
+        NSApplication.shared().terminate(self)
+    }
     
     
 }
