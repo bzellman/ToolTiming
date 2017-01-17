@@ -51,6 +51,10 @@ class LogViewController: NSViewController, NSTableViewDataSource, NSTableViewDel
         // Do view setup here.
         tableView.delegate = self
         tableView.dataSource = self
+        
+    }
+    
+    override func viewWillAppear() {
         fetchItems()
     }
     
@@ -248,7 +252,7 @@ class LogViewController: NSViewController, NSTableViewDataSource, NSTableViewDel
     func createExportString() -> String {
         
         print(tableRowAndProjectDictionary.keys)
-        var export: String! = "Project Name, Data Import, Design, Development Team Consult, Development, General Communication, Graphics, Marketing, Other, QA, Scheduled Meeting, Technical Support, Test Builds, Troubleshooting, Description, Web Development, Date And Time \n"
+        var export: String! = "Project Name, Date, Unbillable, General Communication, Scheduled Meetings, QA, Test Builds, Troubleshooting, Development Team Consultation, Web Design, Graphics, Design, Data Import, Internal Development, Technical Support,  Marketing, Other, Total, Description \n"
         
         
         for project in fetchedDetails {
@@ -263,48 +267,26 @@ class LogViewController: NSViewController, NSTableViewDataSource, NSTableViewDel
             export.append(projectName)
             export.append(",")
             
-            let data_import = projectObject.data_import.description
-            export.append(data_import)
-            export.append(",")
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateStyle = DateFormatter.Style.short
+            let dateToConvert = projectObject.date_and_time as NSDate!
+            let projectDate = dateFormatter.string(from: dateToConvert as! Date)
             
-            let design = projectObject.design.description
-            export.append(design)
+            let date_and_time = projectDate
+            export.append(date_and_time)
             export.append(",")
-            
-            let dev_tem_consult = projectObject.dev_tem_consult.description
-            export.append(dev_tem_consult)
-            export.append(",")
-            
-            let development = projectObject.development.description
-            export.append(development)
-            export.append(",")
+            export.append(" ,")
             
             let general_comm = projectObject.general_comm.description
             export.append(general_comm)
-            export.append(",")
-            
-            let graphics = projectObject.graphics.description
-            export.append(graphics)
-            export.append(",")
-            
-            let marketing = projectObject.marketing.description
-            export.append(marketing)
-            export.append(",")
-            
-            let other = projectObject.other.description
-            export.append(other)
-            export.append(",")
-            
-            let qa = projectObject.qa.description
-            export.append(qa)
             export.append(",")
             
             let scheduled_meetings = projectObject.scheduled_meetings.description
             export.append(scheduled_meetings)
             export.append(",")
             
-            let tech_support = projectObject.tech_support.description
-            export.append(tech_support)
+            let qa = projectObject.qa.description
+            export.append(qa)
             export.append(",")
             
             let test_builds = projectObject.test_builds.description
@@ -315,21 +297,47 @@ class LogViewController: NSViewController, NSTableViewDataSource, NSTableViewDel
             export.append(troubleshooting)
             export.append(",")
             
-            let desc = projectObject.desc
-            export.append(desc!)
+            let dev_tem_consult = projectObject.dev_tem_consult.description
+            export.append(dev_tem_consult)
             export.append(",")
             
             let web_dev = projectObject.web_dev.description
             export.append(web_dev)
             export.append(",")
             
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateStyle = DateFormatter.Style.short
-            let dateToConvert = projectObject.date_and_time as NSDate!
-            let projectDate = dateFormatter.string(from: dateToConvert as! Date)
+            let graphics = projectObject.graphics.description
+            export.append(graphics)
+            export.append(",")
             
-            let date_and_time = projectDate
-            export.append(date_and_time)
+            let design = projectObject.design.description
+            export.append(design)
+            export.append(",")
+            
+            let data_import = projectObject.data_import.description
+            export.append(data_import)
+            export.append(",")
+            
+            let internal_development = projectObject.development.description
+            export.append(internal_development)
+            export.append(",")
+            
+            let tech_support = projectObject.tech_support.description
+            export.append(tech_support)
+            export.append(",")
+            
+            let marketing = projectObject.marketing.description
+            export.append(marketing)
+            export.append(",")
+            
+            let other = projectObject.other.description
+            export.append(other)
+            export.append(",")
+            
+            export.append(" ,")
+            
+            let desc = projectObject.desc
+            export.append(desc!)
+//            export.append(",")
             export.append("\n")
             
 
